@@ -1,0 +1,135 @@
+<!--
+	@author： zhangqianchun
+	@date： 2021-1-30 17:36
+	@description： 我的申请-学生
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../static/layuimini/lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../static/layuimini/css/public.css" media="all">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <fieldset class="table-search-fieldset">
+            <legend>申请须知</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                1、未上传截图的学生申请将被驳回 <br>
+                2、申请通过后成绩会立即修改生效 <br>
+                3、已经处理的申请无法撤销，需要再次修改成绩请重新发起申请
+            </div>
+        </fieldset>
+
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+        <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-fallBack" lay-event="fallBack">撤销申请</a>
+        </script>
+
+    </div>
+</div>
+
+
+<script src="../../js/jquery-3.5.1.js"></script>
+<script src="../../js/myAjax.js"></script>
+<script src="../../static/layuimini/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['form', 'table'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+        let tokenHead=localStorage.getItem("tokenHead");
+        let token=localStorage.getItem("token");
+
+        table.render({
+            elem: '#currentTableId',
+            //渲染表格数据
+            url: 'http://localhost:9000/score/applications-stu',
+            where: {
+                //stuUserName: '1740611318',
+                stuUserName: localStorage.getItem('userName')
+            },
+            toolbar: '#toolbarDemo',
+            headers:{"Authorization":tokenHead+token},
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            cols: [[
+                {type: "checkbox", width: 50},
+                {field: 'id', width: 120, title: '申请编号', sort: true},
+                {field: 'scoId', width: 120, title: '成绩编号', sort: true},
+                {field: 'stuUserName', width: 120, title: '学生账户', sort: true},
+                {field: 'stuName', width: 120, title: '学生姓名'},
+                {field: 'subId', width: 120, title: '科目编号', sort: true},
+                {field: 'subName', width: 120, title: '科目名'},
+                {field: 'teaId', width: 120, title: '教师编号'},
+                {field: 'teaName', width: 120, title: '教师姓名'},
+                {field: 'subGrade', width: 120, title: '科目总分'},
+                {field: 'grade', title: '学生得分', minWidth: 120},
+                {field: 'applyGrade', title: '修改分数', minWidth: 120},
+                {field: 'applyDescription', title: '申请描述', minWidth: 120},
+                {field: 'imgUri', title: '学生截图', minWidth: 120,
+                    templet:function (obj) {
+                        return "<a href='"+obj.imgUri+"' target='_blank' style='color: #1E9FFF'>查看</a>"
+                    }
+                },
+                {field: 'status', title: '审批状态', minWidth: 120,
+                    templet:function (obj) {
+                        let statusColor = '#FF5722'
+                        if (obj.status === '待处理') {
+                            statusColor = '#01AAED'
+                        }
+                        else if (obj.status === '已通过') {
+                            statusColor = '#5FB878'
+                        }
+                        return "<p style='color: "+statusColor+"'>| "+obj.status+"</p>"
+                    }
+                },
+                {title: '操作', minWidth: 400, toolbar: '#currentTableBar', align: "center"}
+            ]],
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 15,
+            page: false,
+            skin: 'line'
+        });
+
+        //撤销申请
+        table.on('tool(currentTableFilter)', function (obj) {
+            let data = obj.data;
+
+            if (data.status !== '待处理') {
+                layer.msg('该条申请已经处理，如有疑问请联系您的任课教师')
+                return false
+            }
+
+            if (obj.event === 'fallBack') {
+
+                let appId = data.id
+
+                let param = {}
+
+                let result = myDeleteTokenAjax("score/fallBackApply/"+appId,param)
+                layer.msg(result.msg)
+                layui.table.reload('currentTableId');
+
+                return false
+            }
+        });
+
+    });
+</script>
+
+</body>
+</html>
+
+

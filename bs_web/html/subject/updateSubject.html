@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../static/layuimini/lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../static/layuimini/css/public.css" media="all">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+    <script src="../../js/jquery-3.5.1.js"></script>
+    <script src="../../js/myAjax.js"></script>
+
+</head>
+<body>
+<div class="layui-form layuimini-form">
+    <form class="layui-form" style="width:90%;" id="dataFrm" lay-filter="dataFrm">
+        <input type="hidden" name="id" id="id">
+        <div class="layui-col-md12 layui-col-xs12">
+            <div class="layui-form-item magb0">
+                <div class="layui-inline">
+                    <label class="layui-form-label">教师名称：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="teacherName" name="teacherName" readonly>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">科目编号：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="subCode" name="subCode" lay-verify="required"  placeholder="请输入课程编号">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">科目名称：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="subName" name="subName" lay-verify="required"
+                               placeholder="请输入课程名称">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">科目总分：</label>
+                    <div class="layui-input-inline">
+                        <input type="number" class="layui-input" id="subGrade" name="subGrade" lay-verify="required"
+                               placeholder="请输入科目总分">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">及格分数：</label>
+                    <div class="layui-input-inline">
+                        <input type="number" class="layui-input" id="subPass" name="subPass" lay-verify="required"
+                               placeholder="请输入及格分数">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">选课数量：</label>
+                    <div class="layui-input-inline">
+                        <input type="number" class="layui-input" id="subTotalCount" name="subTotalCount" lay-verify="required"
+                               placeholder="请输入科目选课人数" min="0">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="text-align: center;">
+                    <button type="button" class="layui-btn" lay-submit lay-filter="doSubmit" id="doSubmit"><span
+                            class="layui-icon layui-icon-add-1"></span>提交
+                    </button>
+                    <button type="reset" class="layui-btn layui-btn-warm" id="reset"><span
+                            class="layui-icon layui-icon-refresh-1" ></span>重置
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="../../static/layuimini/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script>
+    //修改科目时候的回显
+    function subjectDetail(data, index) {
+        $("#id").val(data.id);
+        $("#teacherName").val(data.teacherName);
+        $("#subCode").val(data.subCode);
+        $("#subName").val(data.subName);
+        $("#subGrade").val(data.subGrade);
+        $("#subPass").val(data.subPass);
+        $("#subTotalCount").val(data.subTotalCount);
+    }
+
+    layui.use(['form', 'upload', 'layer'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            upload = layui.upload,
+            $ = layui.$;
+
+        form.on("submit(doSubmit)", function (data) {
+            console.log($("#subGrade").val(),"总分")
+            console.log($("#subPass").val(),"及格分")
+            console.log($("#subGrade").val()>$("#subPass").val(),4444444)
+            if ($("#subGrade").val()-$("#subPass").val()>0){
+                let result = myPostTokenAjax("subject/updateSubject", data.field);
+                if(result.data!=""){
+                    layer.msg(result.data.message)
+                    if(result.data.success){
+                        //刷新查询页面表格数据
+                        parent.layui.table.reload("currentTableId");
+                        //关闭窗口
+                        var iframeIndex = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(iframeIndex);
+                    }
+                }else {
+                    layer.msg(result.msg);
+                }
+            }else {
+                layer.msg("及格分数不能大于等于总分");
+            }
+
+            return false;
+        });
+
+        //重置的时候老师姓名不用重复。id是隐藏域，重置不会生效
+        document.getElementById("reset").onclick = function() {
+            var myInput = document.getElementById("teacherName");
+            myInput.defaultValue = myInput.value;
+        }
+
+    });
+</script>
+</body>
+</html>

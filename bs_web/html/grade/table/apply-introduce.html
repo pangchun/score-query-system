@@ -1,0 +1,105 @@
+<!--
+	@author： zhangqianchun
+	@date： 2021-2-1 14:09
+	@description： 成绩管理-申请流程说明
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../../static/layuimini/lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../../static/layuimini/css/public.css" media="all">
+    <style>
+        body {
+
+        }
+
+        #step {
+            margin: 40px 0;
+        }
+
+        #problem {
+            background-color: #ffffff;
+        }
+
+        .layui-colla-title {
+            background-color: #ffffff;
+        }
+
+        .layui-elem-quote {
+            background-color: #ffffff;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <!-- 1/3布局 -->
+    <div id="step" class="layui-row layui-col-space10">
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header">第一步 >>> 获取教师信息并与教师联系 </div>
+                <div class="layui-card-body">
+                    <a target="_blank" href="../../../static/img/step/申请第一步.png">
+                        <img src="../../../static/img/step/申请第一步.png" width="200">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header">第二步 >>> 与教师确认要修改的学科成绩并截图 </div>
+                <div class="layui-card-body">
+                    <a target="_blank" href="../../../static/img/step/申请第二步.png">
+                        <img src="../../../static/img/step/申请第二步.png" width="200">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header">第三步 >>> 上传截图并发起申请 </div>
+                <div class="layui-card-body">
+                    <a target="_blank" href="../../../static/img/step/申请第三步.png">
+                        <img src="../../../static/img/step/申请第三步.png" width="200">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <blockquote class="layui-elem-quote">常见问题</blockquote>
+
+    <!-- 常见问题手风琴 -->
+    <div id="problem" class="layui-collapse" lay-accordion>
+        <div class="layui-colla-item">
+            <h2 class="layui-colla-title">1、发起申请前一定要联系教师吗？</h2>
+            <div class="layui-colla-content">
+                一定。如果没有与教师联系的截图，即使发起申请也不会通过审批。
+            </div>
+        </div>
+        <div class="layui-colla-item">
+            <h2 class="layui-colla-title">其它问题</h2>
+            <div class="layui-colla-content">
+                请致电运维人员 TEL：15283250266
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JS -->
+<script src="../../../static/layuimini/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script>
+    layui.use('element', function(){
+        let element = layui.element;
+
+        //…
+    });
+</script>
+</body>
+</html>

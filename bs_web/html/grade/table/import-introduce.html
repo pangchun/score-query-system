@@ -1,0 +1,120 @@
+<!--
+	@author： zhangqianchun
+	@date： 2021-1-29 9:44
+	@description： 成绩管理-导入说明
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../../static/layuimini/lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../../static/layuimini/css/public.css" media="all">
+    <style>
+        body {
+
+        }
+
+        #step {
+            margin: 40px 0;
+        }
+
+        #problem {
+            background-color: #ffffff;
+        }
+
+        .layui-colla-title {
+            background-color: #ffffff;
+        }
+
+        .layui-elem-quote {
+            background-color: #ffffff;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <!-- 1/3布局 -->
+    <div id="step" class="layui-row layui-col-space10">
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header">第一步 >>> 筛选学生成绩 </div>
+                <div class="layui-card-body">
+                    <a target="_blank" href="../../../static/img/step/第一步.png">
+                        <img src="../../../static/img/step/第一步.png" width="200">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header">第二步 >>> 下载成绩模板 </div>
+                <div class="layui-card-body">
+                    <a target="_blank" href="../../../static/img/step/第二步.png">
+                        <img src="../../../static/img/step/第二步.png" width="200">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header">第三步 >>> 导入Excel </div>
+                <div class="layui-card-body">
+                    <a target="_blank" href="../../../static/img/step/第三步.png">
+                        <img src="../../../static/img/step/第三步.png" width="200">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <blockquote class="layui-elem-quote">常见问题</blockquote>
+
+    <!-- 常见问题手风琴 -->
+    <div id="problem" class="layui-collapse" lay-accordion>
+        <div class="layui-colla-item">
+            <h2 class="layui-colla-title">1、除了筛选未录入的，还可以筛选其它条件吗？</h2>
+            <div class="layui-colla-content">
+                可以。不管是否已录入的成绩都可以筛选出来进行编辑后一键导入。
+                例如，我们要录入某一科目的学生成绩，可以通过科目编号或科目名
+                筛选出成绩列表，然后导出excel编辑！
+            </div>
+        </div>
+        <div class="layui-colla-item">
+            <h2 class="layui-colla-title">2、上传之前要将表格另存为？</h2>
+            <div class="layui-colla-content">
+                我们目前只支持Excel 97-2003的 *.xls 和 *.xlsx 文件，上传其它版本格式有可能解析失败！
+
+            </div>
+        </div>
+        <div class="layui-colla-item">
+            <h2 class="layui-colla-title">3、导入的表格字段可以部分为空吗？</h2>
+            <div class="layui-colla-content">
+                不可以。如果有空数据可能会影响成绩导入的准确性！
+            </div>
+        </div>
+        <div class="layui-colla-item">
+            <h2 class="layui-colla-title">其它问题</h2>
+            <div class="layui-colla-content">
+                请致电运维人员 TEL：15283250266
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JS -->
+<script src="../../../static/layuimini/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script>
+    layui.use('element', function(){
+        let element = layui.element;
+
+        //…
+    });
+</script>
+</body>
+</html>

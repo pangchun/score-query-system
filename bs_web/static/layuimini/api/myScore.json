@@ -1,0 +1,31 @@
+{
+  "code": 0,
+  "msg": "",
+  "count": 1000,
+  "data": [
+    {
+      "id": 1,
+      "stuUserName": "1740611318",
+      "stuName": "张乾椿",
+      "subId": "001",
+      "subName": "大学语文",
+      "subGrade": "100",
+      "subPass": "60",
+      "teaId": "0001",
+      "teaName": "刘老师",
+      "grade": "88"
+    },
+    {
+      "id": 2,
+      "stuUserName": "1740611318",
+      "stuName": "张乾椿",
+      "subId": "002",
+      "subName": "微积分",
+      "subGrade": "100",
+      "subPass": "70",
+      "teaId": "0003",
+      "teaName": "王老师",
+      "grade": "90"
+    }
+  ]
+}

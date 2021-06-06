@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!--
+    @author : zhangqianchun
+    @date : 2020-1-18 13:17
+    @description : ScoreMapper
+-->
+
+<mapper namespace="com.bs.dao.ScoreDao">
+
+<!--####################################################################################################################################################-->
+
+    <!-- 查询指定学生的所有成绩 -->
+    <select id="findAllScoreByUserName" parameterType="String" resultMap="scoreResultMap">
+        SELECT *
+        FROM t_score SCO
+        LEFT OUTER JOIN wx_user STU on SCO.username = STU.username
+        LEFT OUTER JOIN t_subject SUB on SCO.sub_id = SUB.id
+        WHERE SCO.username = #{username}
+    </select>
+
+    <!-- 按条件查询学生的成绩 -->
+    <select id="findByDynamic" parameterType="ScoreQuery" resultMap="scoreResultMap">
+        SELECT *
+        FROM t_score SCO
+        LEFT OUTER JOIN wx_user STU on SCO.username = STU.username
+        LEFT OUTER JOIN t_subject SUB on SCO.sub_id = SUB.id
+        <where>
+            <if test="scoId != null and scoId != ''">
+                SCO.id = #{scoId}
+            </if>
+            <if test="subId != null and subId != ''">
+                and SCO.sub_id = #{subId}
+            </if>
+            <if test="subName != null and subName != ''">
+                and SUB.sub_name like concat('%',#{subName},'%')
+            </if>
+            <if test="isPassed != null and isPassed == 'true' ">
+                and SCO.grade <![CDATA[ >= ]]> SUB.sub_pass
+            </if>
+            <if test="isPassed != null and isPassed == 'false' ">
+                and SCO.grade <![CDATA[ < ]]> SUB.sub_pass
+            </if>
+            <if test="isPassed != null and isPassed == 'none' ">
+                and SCO.grade is null
+            </if>
+            <if test="teaId != null and teaId != ''">
+                and SUB.teacher_id = #{teaId}
+            </if>
+            <if test="stuUserName != null and stuUserName != ''">
+                and SCO.username like concat('%',#{stuUserName},'%')
+            </if>
+            <if test="stuName != null and stuName != ''">
+                and STU.real_name like concat('%',#{stuName},'%')
+            </if>
+        </where>
+    </select>
+
+    <!-- 按账号查询用户Id -->
+    <select id="findIdByUsername" resultType="String">
+        SELECT U.id
+        FROM wx_user U
+        WHERE U.username = #{username}
+    </select>
+
+    <!-- 按成绩id、学生账户、和学科id修改学生得分 -->
+    <update id="updateScore" parameterType="UpdateDTO">
+        UPDATE t_score SCO
+        SET SCO.grade = #{grade}
+        WHERE SCO.id = #{scoId}
+        AND SCO.username = #{stuUserName}
+        AND SCO.sub_id = #{subId}
+    </update>
+    
+    <!-- 按科目idSet查询科目总分 -->
+    <select id="findBySubIdSet" parameterType="java.util.Set" resultType="java.util.HashMap">
+        <if test="idSet != null">
+            SELECT SUB.sub_grade, SUB.id
+            FROM t_subject SUB
+            WHERE SUB.id IN
+            <foreach collection="idSet" index="index" item="item" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <!-- 批量修改 -->
+    <update id="updateBatch" parameterType="java.util.List">
+        UPDATE t_score SCO
+        <trim prefix="SET" suffixOverrides=",">
+            <trim prefix="grade = case" suffix="END,">
+                <foreach collection="list" index="index" item="item">
+                    WHEN SCO.id = #{item.id} THEN #{item.grade}
+                </foreach>
+            </trim>
+        </trim>
+        WHERE SCO.id IN
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </update>
+
+    <!-- 批量重置 -->
+    <update id="resetBatch" parameterType="java.util.List">
+        UPDATE t_score SCO
+        SET SCO.grade = NULL
+        WHERE SCO.id IN
+        <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <!-- 按id查询用户 -->
+    <select id="findUserById" resultType="User">
+        SELECT *
+        FROM wx_user U
+        WHERE U.id = #{id}
+    </select>
+
+    <!-- 新增申请 -->
+    <insert id="addApplication" parameterType="ApplicationDTO">
+        INSERT INTO t_application (scoId,stuUserName,stuName,subId,subName,teaId,teaName,subGrade,grade,applyGrade,applyDescription,imgUri,status)
+        VALUES (#{scoId},#{stuUserName},#{stuName},#{subId},#{subName},#{teaId},#{teaName},#{subGrade},#{grade},#{applyGrade},#{applyDescription},#{imgUri},0)
+    </insert>
+
+    <!-- 按成绩id查询待处理的申请 -->
+    <select id="findApplicationByScoId" resultType="Application">
+        SELECT *
+        FROM t_application APP
+        WHERE APP.scoId = #{scoId}
+        AND (APP.status = 0 OR APP.status = 1)
+    </select>
+
+    <!-- 按教师id查找所有申请 -->
+    <select id="findAllApplicationsByTeaId" resultType="Application">
+        SELECT *
+        FROM t_application APP
+        WHERE APP.teaId = #{teaId}
+    </select>
+
+    <!-- 按成绩id修改学生得分 -->
+    <update id="updateScoreByScoId">
+        UPDATE t_score SCO
+        SET SCO.grade = #{grade}
+        WHERE SCO.id = #{scoId}
+    </update>
+
+    <!-- 按申请id修改申请状态 -->
+    <update id="updateStatusByAppId">
+        UPDATE t_application APP
+        SET APP.status = #{status}
+        WHERE APP.id = #{appId}
+    </update>
+
+    <!-- 按学生账户查找所有申请 -->
+    <select id="findAllApplicationsStuUserName" resultType="Application">
+        SELECT *
+        FROM t_application APP
+        WHERE APP.stuUserName = #{stuUserName}
+    </select>
+
+    <!-- 按id删除申请 -->
+    <delete id="deleteApplyById">
+        DELETE FROM t_application APP
+        WHERE APP.id = #{appId}
+    </delete>
+
+<!--####################################################################################################################################################-->
+
+    <resultMap id="scoreResultMap" type="Score">
+        <id property="id" column="id"/>
+        <result property="grade" column="grade"/>
+        <association property="student" column="username" javaType="User"   resultMap="userResult"/>
+        <association property="subject" column="sub_id" javaType="Subject"  resultMap="subjectResult"/>
+    </resultMap>
+
+    <resultMap id="userResult" type="User">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="realName" column="real_name"/>
+    </resultMap>
+
+    <resultMap id="subjectResult" type="Subject">
+        <!-- 这里将id起别名，不然会导致id重复 -->
+        <id property="id" column="SUB_id"/>
+        <result property="subName" column="sub_name"/>
+        <result property="subGrade" column="sub_grade"/>
+        <result property="subPass" column="sub_pass"/>
+        <association property="teacher" column="{tid=teacher_id}" javaType="User" select="selectTeacherById"/>
+    </resultMap>
+
+    <select id="selectTeacherById" resultMap="userResult">
+        SELECT TEA.id, TEA.username, TEA.real_name
+        FROM wx_user TEA
+        WHERE TEA.id = #{tid}
+    </select>
+
+<!--####################################################################################################################################################-->
+
+</mapper>

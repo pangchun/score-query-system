@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bs.dao.SubjectDao">
+<!--    分页/按条件查询全部科目-->
+    <select id="selectAllSubject" parameterType="com.bs.model.vo.SubjectVo" resultType="com.bs.model.vo.SubjectVo">
+        select s.*,u.real_name as teacherName
+        from t_subject s left join wx_user u
+        on u.id =  s.teacher_id
+        <where>
+            <if test="subCode!=null and subCode!=''">
+               and sub_code like concat("%",#{subCode},"%")
+            </if>
+            <if test="teacherName!=null and teacherName!=''">
+                and u.real_name like concat("%",#{teacherName},"%")
+            </if>
+            <if test="subName!=null and subName!=''">
+                and sub_name like concat("%",#{subName},"%")
+            </if>
+        </where>
+    </select>
+
+<!--    查询某门科目详情-->
+    <select id="selectObjectDetail" parameterType="com.bs.model.vo.SubjectVo" resultType="com.bs.model.vo.SubjectVo">
+        select *from t_subject where id=#{id}
+    </select>
+<!--    修改科目详情-->
+    <update id="updateSubject">
+        update t_subject
+        <set>
+            <if test="subject.subCode!=null and subject.subCode!=''">
+                sub_code=#{subject.subCode},
+            </if>
+            <if test="subject.subName!=null and subject.subName!=''">
+                sub_name=#{subject.subName},
+            </if>
+            <if test="subject.subGrade!=null">
+                sub_grade=#{subject.subGrade},
+            </if>
+            <if test="subject.subPass!=null">
+                sub_pass=#{subject.subPass},
+            </if>
+            <if test="subject.subTotalCount!=null">
+                sub_now_count=sub_now_count+#{value},
+                sub_total_count=#{subject.subTotalCount},
+            </if>
+            update_time=now()
+        </set>
+        where id=#{subject.id}
+    </update>
+
+<!--    根据科目的编码查询科目-->
+    <select id="selectSubject" parameterType="com.bs.model.vo.SubjectVo" resultType="com.bs.model.vo.SubjectVo">
+        select *from t_subject where sub_code=#{subCode}
+    </select>
+
+<!--    增加科目-->
+    <insert id="addSubject" parameterType="SubjectVo">
+        insert into t_subject
+        (teacher_id,sub_code,sub_name,sub_pass,sub_grade,sub_now_count,sub_total_count,create_time)
+        values
+        (#{teacherId},#{subCode},#{subName},#{subPass},
+        #{subGrade},#{subTotalCount},#{subTotalCount},now());
+    </insert>
+
+<!--    查询全部的科目编码-->
+    <select id="selectAllSubCode" resultType="Subject">
+         select * from t_subject
+         where sub_code=#{subCode} and id!=#{id}
+         group by sub_code
+    </select>
+
+    <delete id="delSubject" parameterType="com.bs.model.vo.SubjectVo">
+        delete from t_subject where id=#{id}
+    </delete>
+
+<!--   查询学生是否选择了该课程-->
+    <select id="isSelectedSubject" parameterType="com.bs.model.vo.ScoreVO" resultType="Score">
+        select *from t_score where `username`=#{stuUserName} and sub_id=#{subId}
+    </select>
+<!--    学生选课-->
+    <insert id="studentSelectSubject" parameterType="com.bs.model.vo.ScoreVO">
+        insert into t_score (`username`,`sub_id`)
+        values (#{stuUserName},#{subId});
+    </insert>
+<!--    查询课程剩余数量-->
+    <select id="selcetSubjectSum" parameterType="com.bs.model.vo.SubjectVo" resultType="Subject">
+        select *from t_subject where id=#{id}
+    </select>
+<!--    选课后课程数量减1-->
+    <update id="subjectSumSub" parameterType="com.bs.model.vo.SubjectVo">
+        update t_subject set sub_now_count=sub_now_count-#{num} where id=#{id}
+    </update>
+<!--    查询学生已经选择的课程-->
+    <select id="studentIsSelectSubject"  resultType="com.bs.model.vo.SubjectVo" >
+        SELECT s.id,u.real_name as teacherName,s.sub_name ,s.sub_pass,s.sub_grade
+        from t_subject as s left join wx_user as u on s.teacher_id=u.id
+        <where>
+            s.id in(select sub_id from t_score where username=#{username})
+            <if test="subject!=null">
+                <if test="subject.subName!=''">
+                    and  s.sub_name=#{subject.subName}
+                </if>
+            </if>
+        </where>
+    </select>
+<!--    学生取消选课-->
+    <delete id="delIsSelectedSubject" parameterType="com.bs.model.vo.ScoreVO">
+        delete from t_score where username=#{stuUserName} and sub_id =#{subId}
+    </delete>
+</mapper>

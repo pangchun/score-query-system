@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bs.dao.ExamInfoDao">
+    <!--    分页/按条件查询全部科目-->
+    <select id="selectAllExamInfo" parameterType="ExamInfoVO" resultType="ExamInfoVO">
+        select
+        sub.sub_name ,
+        usr.real_name ,
+        exam.id ,
+        exam.`name`,
+        exam.type ,
+        exam.time
+        from t_subject sub
+        inner join wx_user usr on usr.id = sub.teacher_id
+        inner join t_exam exam on exam.course_id = sub.id
+        <where>
+            <if test="subId!=0 and subId!=null">
+                sub.id=#{subId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectDownBox" parameterType="String" resultType="SubjectIdNameVO">
+        select sub.id as 'sub_id', sub.sub_name
+        from t_subject sub
+        where sub.id in (select sub_id from t_score where username = #{username})
+    </select>
+
+    <!--    查询某个科目对应考试的详情-->
+    <select id="selectExamInfoDetail" parameterType="ExamInfoVO" resultType="ExamInfoVO">
+        select *from t_exam where id=#{id}
+    </select>
+
+   <select id="findTeacherCourse" parameterType="User" resultType="Subject">
+       select * from t_subject where teacher_id=(select id from wx_user where username=#{username})
+   </select>
+    <!-- 根据考试的的编码查询考试-->
+    <select id="selectExamInfo" parameterType="ExamInfoVO" resultType="ExamInfoVO">
+        select *from t_subject where sub_code=#{subCode}
+    </select>
+    <!-- 新增考试信息-->
+    <insert id="addexamInfo" parameterType="com.bs.model.ExamInfo">
+        insert into t_exam
+            (`name`,course_id,`type`,`time`)
+        values (#{name},#{courseId},#{type},#{time});
+    </insert>
+    <!-- 修改考试信息-->
+    <update id="updateExamInfo" parameterType="ExamInfo">
+        update t_exam
+        <set>
+            <if test="`name`!=null and `name`!=''">
+                `name` = #{name},
+            </if>
+            <if test="`type`!=null and `type`!=''">
+                `type` = #{type},
+            </if>
+            <if test="`time`!=null and `time`!=''">
+                `time` = #{time}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <!--  删除考试信息-->
+    <delete id="delExamInfo" parameterType="ExamInfo">
+        delete from t_exam where id=#{id}
+    </delete>
+
+</mapper>

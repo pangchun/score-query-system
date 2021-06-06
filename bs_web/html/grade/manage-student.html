@@ -1,0 +1,210 @@
+<!--
+	@author： zhangqianchun
+	@date： 2021-1-22 14:24
+	@description： 成绩查询-主页
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../static/layuimini/lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../static/layuimini/css/public.css" media="all">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <fieldset class="table-search-fieldset">
+            <legend>学生信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">学生账户</label>
+                            <div class="layui-input-inline">
+                                <input id="username" readonly placeholder="xxx" type="text" name="username" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">学生姓名</label>
+                            <div class="layui-input-inline">
+                                <input id="realName" readonly placeholder="xxx" type="text" name="realName" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="introduce"> 申请流程说明 </button>
+            </div>
+        </script>
+
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+        <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-warm layui-btn-xs data-count-contact" lay-event="contact">联系教师</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-apply" lay-event="apply">发起申请</a>
+        </script>
+
+    </div>
+</div>
+
+
+<script src="../../js/jquery-3.5.1.js"></script>
+<script src="../../js/myAjax.js"></script>
+<script src="../../static/layuimini/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script>
+
+    /**
+     * 初始化&渲染表格
+     */
+    layui.use(['form', 'table'], function () {
+
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+            let tokenHead=localStorage.getItem("tokenHead");
+            let token=localStorage.getItem("token");
+
+        table.render({
+
+            elem: '#currentTableId',
+            url: 'http://localhost:9000/score/query',
+            where: {
+                //username: '1740611318'
+                username: localStorage.getItem('userName')
+            },
+            toolbar: '#toolbarDemo',
+            headers:{"Authorization":tokenHead+token},
+
+            //回调函数
+            done: function(res) {
+                let data = res.data;
+                $('#username').val(data[0].stuUserName);
+                $('#realName').val(data[0].stuName);
+            },
+
+            defaultToolbar: ['exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            cols: [[
+                {type: "checkbox", width: 50},
+                {field: 'id', width: 120, title: '成绩编号', sort: true},
+                {field: 'subId', width: 120, title: '科目编号'},
+                {field: 'subName', width: 120, title: '科目名字', sort: true},
+                {field: 'subGrade', width: 120, title: '科目总分'},
+                {field: 'subPass', width: 120, title: '及格分数'},
+                {field: 'teaId', width: 120, title: '教师编号'},
+                {field: 'teaName', width: 120, title: '教师姓名'},
+                {field: 'grade', title: '我的得分', minWidth: 120},
+                {title: '操作', minWidth: 400, toolbar: '#currentTableBar', align: "center"}
+            ]],
+
+            //不开启分页
+            page: false,
+            skin: 'line'
+        });
+
+
+        //监听表格复选框选择
+        table.on('checkbox(currentTableFilter)', function (obj) {
+            console.log(obj)
+        });
+
+        //申请流程说明
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            if (obj.event === 'introduce') {
+
+                let index = layer.open({
+                    title: '申请流程',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: 'table/apply-introduce.html',
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            }
+        });
+
+        //监听操作按钮
+        table.on('tool(currentTableFilter)', function (obj) {
+
+            let data = obj.data; //这个是列表数据
+
+            if (obj.event === 'contact') {
+
+                //注意：这里的sco_data只能是全局变量，这样才能在子页面拿到sco_data
+                sco_data = JSON.stringify(data);
+
+                let index = layer.open({
+                    title: '联系教师',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: 'table/contact.html',
+
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+
+                return false;
+
+            } else if (obj.event === 'apply') {
+
+                //TODO: 这里需要判断此条成绩是否已经发起过申请
+
+                let result=myGetTokenAjax("score/applyExist",{scoId: data.id});
+
+                if (result.data != null && result.data.status === 0) {
+                    layer.alert('该条成绩您已经发起过申请，请耐心等待教师处理')
+                    return  false;
+                }else if (result.data != null && result.data.status === 1) {
+                    layer.alert('该条成绩的申请已经通过，请勿再次申请')
+                    return  false;
+                }
+
+                //注意：这里的sco_data只能是全局变量，这样才能在子页面拿到sco_data
+                sco_data = JSON.stringify(data);
+
+                let index = layer.open({
+                    title: '发起申请',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: 'table/apply.html',
+
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+
+                return false;
+
+            }
+        });
+
+    });
+</script>
+
+</body>
+</html>

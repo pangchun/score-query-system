@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="1e2da520-a51b-437e-990a-c6dcf55424e2" name="Default Changelist" comment="提交信息：修改某些问题">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="MERGE" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="D:\Maven\repository" />
+        <option name="mavenHome" value="D:/Maven/apache-maven-3.6.3" />
+        <option name="userSettingsFile" value="D:\Maven\apache-maven-3.6.3\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="vmOptionsForImporter" value="-Xms1024m -Xmx2048m" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1n138WJWSOgI6Vy957X4CVJfDY3" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../bs" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="File.Encoding" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\bishe\bsweb\html" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\bishe\bsweb\html\subject" />
+      <recent name="F:\毕业设计\bs_web\html\grade" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="project-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1e2da520-a51b-437e-990a-c6dcf55424e2" name="Default Changelist" comment="" />
+      <created>1610543610057</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1610543610057</updated>
+      <workItem from="1610543611510" duration="1516000" />
+      <workItem from="1610717578028" duration="1401000" />
+      <workItem from="1610719018057" duration="2000" />
+      <workItem from="1610935457136" duration="6656000" />
+      <workItem from="1611215006255" duration="231000" />
+      <workItem from="1611215246214" duration="10173000" />
+      <workItem from="1611236374199" duration="1431000" />
+      <workItem from="1611281371875" duration="3929000" />
+      <workItem from="1611295945145" duration="9952000" />
+      <workItem from="1611310393147" duration="381000" />
+      <workItem from="1611318724892" duration="2803000" />
+      <workItem from="1611325913292" duration="964000" />
+      <workItem from="1611364117571" duration="3698000" />
+      <workItem from="1611368867018" duration="3651000" />
+      <workItem from="1611382114456" duration="7778000" />
+      <workItem from="1612750107743" duration="32000" />
+      <workItem from="1615425020872" duration="1709000" />
+      <workItem from="1615441872298" duration="1420000" />
+      <workItem from="1615448303138" duration="74000" />
+      <workItem from="1616308707550" duration="60000" />
+      <workItem from="1616569932607" duration="1990000" />
+      <workItem from="1616982691104" duration="3213000" />
+      <workItem from="1617156689305" duration="2184000" />
+      <workItem from="1617276822216" duration="86000" />
+      <workItem from="1617430466191" duration="8911000" />
+      <workItem from="1617620720715" duration="2168000" />
+      <workItem from="1618035796840" duration="296000" />
+      <workItem from="1618036134295" duration="346000" />
+      <workItem from="1618110555479" duration="2187000" />
+      <workItem from="1618285412217" duration="921000" />
+      <workItem from="1618328004039" duration="1735000" />
+      <workItem from="1618330672643" duration="1679000" />
+      <workItem from="1618538088902" duration="5186000" />
+      <workItem from="1618733884433" duration="11769000" />
+      <workItem from="1618819609644" duration="27253000" />
+      <workItem from="1618928695354" duration="6462000" />
+      <workItem from="1618979660991" duration="4749000" />
+      <workItem from="1621863831939" duration="1658000" />
+      <workItem from="1621865553974" duration="625000" />
+      <workItem from="1621866370037" duration="37000" />
+      <workItem from="1621944709226" duration="5262000" />
+      <workItem from="1622256337399" duration="1548000" />
+    </task>
+    <task id="LOCAL-00001" summary="前端用户界面">
+      <created>1611237263130</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1611237263130</updated>
+    </task>
+    <task id="LOCAL-00002" summary="前端用户界面">
+      <created>1611322715154</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1611322715154</updated>
+    </task>
+    <task id="LOCAL-00003" summary="前端用户界面">
+      <created>1611326293068</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1611326293068</updated>
+    </task>
+    <task id="LOCAL-00004" summary="前端用户界面">
+      <created>1611390521210</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1611390521210</updated>
+    </task>
+    <task id="LOCAL-00005" summary="前端用户界面">
+      <created>1611390537147</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1611390537147</updated>
+    </task>
+    <task id="LOCAL-00006" summary="前端用户界面">
+      <created>1611390889131</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1611390889131</updated>
+    </task>
+    <task id="LOCAL-00007" summary="前端用户界面">
+      <created>1615425436602</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1615425436602</updated>
+    </task>
+    <task id="LOCAL-00008" summary="提交信息：调前端考试查询下拉框接口">
+      <created>1618542388059</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1618542388059</updated>
+    </task>
+    <task id="LOCAL-00009" summary="提交信息：修改某些问题">
+      <created>1622123383812</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1622123383812</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="前端用户界面" />
+    <MESSAGE value="提交信息：调前端考试查询下拉框接口" />
+    <MESSAGE value="提交信息：修改某些问题" />
+    <option name="LAST_COMMIT_MESSAGE" value="提交信息：修改某些问题" />
+  </component>
+</project>

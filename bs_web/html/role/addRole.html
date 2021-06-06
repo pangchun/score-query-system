@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../static/layuimini/lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../static/layuimini/css/public.css" media="all">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+    <script src="../../js/jquery-3.5.1.js"></script>
+    <script src="../../js/myAjax.js"></script>
+
+</head>
+<body>
+<div class="layui-form layuimini-form">
+    <form class="layui-form" style="width:90%;" id="dataFrm" lay-filter="dataFrm">
+        <!-- 隐藏域，保存用户id -->
+        <input type="hidden" name="id" id="id">
+        <div class="layui-form-item magt3" style="margin-top: 8px;">
+            <label class="layui-form-label">角色名称</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="name" name="name" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item magt3" style="margin-top: 8px;">
+            <label class="layui-form-label">角色介绍</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="description" name="description" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item magt3" style="margin-top: 8px;display: none">
+            <label class="layui-form-label">是否可用</label>
+            <div class="layui-input-block">
+                <input type="radio" name="status" value="1" title="是" checked>
+                <input type="radio" name="status" value="0" title="否">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block" style="text-align: center;">
+                <button type="button" class="layui-btn" lay-submit lay-filter="doSubmit" id="doSubmit"><span
+                        class="layui-icon layui-icon-add-1"></span>提交
+                </button>
+                <button type="reset" class="layui-btn layui-btn-warm"><span
+                        class="layui-icon layui-icon-refresh-1"></span>重置
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="../../static/layuimini/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['form','upload','layer'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            upload=layui.upload,
+            $ = layui.$;
+
+        //修改用户信息
+        form.on("submit(doSubmit)",function (data) {
+            let result=myPostTokenAjax("role/addRole",data.field);
+            if(result.success){
+                //刷新查询页面表格数据
+                parent.layui.table.reload("currentTableId");
+                //关闭窗口
+                var iframeIndex = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(iframeIndex);
+            }else {
+                //提示信息
+                layer.msg(result.message);
+            }
+            //禁止页面刷新
+            return false;
+        });
+    });
+
+</script>
+</body>
+</html>

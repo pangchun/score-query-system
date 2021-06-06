@@ -1,0 +1,38 @@
+spring:
+#  redis:
+#    host: localhost # Redis服务器地址
+#    database: 0 # Redis数据库索引（默认为0）
+#    port: 6379 # Redis服务器连接端口
+#    password: # Redis服务器连接密码（默认为空）
+  datasource:
+    url: jdbc:mysql://localhost:3306/score?userSSL=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowMultiQueries=true
+    username: root
+    password: 112233
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+server:
+  port: 9000
+
+mybatis:
+  #configuration和配置文件mybatis-config.xml只能指定一个
+  configuration:
+    #    开启驼峰命名
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.bs.model
+  mapper-locations: classpath:mapper/*.xml
+
+logging:
+  level:
+    com.bs.dao: debug
+
+jwt:
+  #定义我们的盐  密码
+  secret: mySecret
+  #过期时间
+  expiration: 18000
+  #token 的类型 说明他以 bearer 开头
+  tokenHead: bearer
+  #token 对应的 key
+  tokenHeader: Authorization
+#  {Authorization: "bearer sdfdsfsdfsdfdsfsdfadfdsf"}

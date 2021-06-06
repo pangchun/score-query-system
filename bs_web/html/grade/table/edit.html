@@ -1,0 +1,152 @@
+<!--
+	@author： zhangqianchun
+	@date： 2021-1-18 11:55
+	@description： 成绩管理-编辑
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../../static/layuimini/lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../../static/layuimini/css/public.css" media="all">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-form layuimini-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label required">成绩编号</label>
+        <div class="layui-input-block">
+            <input id="scoId" type="text" name="scoId" readonly lay-verify="required" lay-reqtext="用户名不能为空" value="" class="layui-input layui-bg-gray">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">学生账号</label>
+        <div class="layui-input-block">
+            <input id="stuUserName" type="text" name="stuUserName" readonly lay-verify="required" class="layui-input layui-bg-gray">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">学生姓名</label>
+        <div class="layui-input-block">
+            <input id="stuName" type="text" name="stuName" readonly  lay-verify="required" class="layui-input layui-bg-gray">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">科目编号</label>
+        <div class="layui-input-block">
+            <input id="subId" type="text" name="subId" readonly lay-verify="required" class="layui-input layui-bg-gray">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">科目名字</label>
+        <div class="layui-input-block">
+            <input id="subName" type="text" name="subName" readonly lay-verify="required" class="layui-input layui-bg-gray">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">学科总分</label>
+        <div class="layui-input-block">
+            <input id="subGrade" type="number" name="subGrade" readonly lay-verify="required" class="layui-input layui-bg-gray">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">学生得分</label>
+        <div class="layui-input-block">
+            <input id="grade" type="number" name="grade" lay-verify="required" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">备注信息</label>
+        <div class="layui-input-block">
+            <textarea id="remark" name="remark" class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+        </div>
+    </div>
+</div>
+
+
+<script src="../../../js/jquery-3.5.1.js"></script>
+<script src="../../../js/myAjax.js"></script>
+<script src="../../../static/layuimini/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+
+<script>
+    layui.use(['form', 'layer'], function () {
+        let form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+
+        //eval是将该string类型的json串变为javaScript对象
+        let sco_data = eval('('+parent.sco_data+')');
+        console.log(sco_data);
+
+        //渲染表单
+        $('#scoId').val(sco_data.id),
+        $('#subId').val(sco_data.subId),
+        $('#subName').val(sco_data.subName),
+        $('#teaId').val(sco_data.teaId),
+        $('#stuUserName').val(sco_data.stuUserName),
+        $('#stuName').val(sco_data.stuName),
+        $('#subGrade').val(sco_data.subGrade),
+        $('#grade').val(sco_data.grade)
+
+        //监听提交
+        form.on('submit(saveBtn)', function (obj) {
+
+            let updateDTO = JSON.stringify(obj.field);
+
+            // TODO: 字符长度限制，四舍五入问题，表单字段验证需要后期优化
+
+            //参数校验
+            let grade = parseFloat($('#grade').val());
+            let subGrade = parseFloat($('#subGrade').val());
+
+            if (grade > subGrade || grade < 0) {
+                layer.alert("您的输入有误！！", {
+                    title: '警告'
+                });
+                return false;
+            }
+
+
+
+            let result=myPutTokenAjax("score/update",updateDTO);
+
+            var index = layer.alert(result.msg, {
+                title: '提示'
+            }, function () {
+
+                // 关闭弹出层
+                layer.close(index);
+
+                let iframeIndex = parent.layer.getFrameIndex(window.name);
+
+                parent.layer.close(iframeIndex);
+
+                //刷新父级页面的表格
+                parent.layui.table.reload('currentTableId');
+
+            });
+
+            return false;
+        });
+
+
+
+    });
+</script>
+</body>
+</html>

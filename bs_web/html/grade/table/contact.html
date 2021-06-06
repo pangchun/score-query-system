@@ -1,0 +1,87 @@
+<!--
+	@author： zhangqianchun
+	@date： 2021-1-29 14:52
+	@description： 成绩管理-联系教师
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../../static/layuimini/lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../../static/layuimini/css/public.css" media="all">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-form layuimini-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label required">教师编号</label>
+        <div class="layui-input-block">
+            <input id="teaId" type="text" name="teaId" readonly lay-verify="required" lay-reqtext="用户名不能为空" value="" class="layui-input layui-bg-gray">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">教师姓名</label>
+        <div class="layui-input-block">
+            <input id="teaName" type="text" name="teaName" readonly lay-verify="required" class="layui-input layui-bg-gray">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">联系电话</label>
+        <div class="layui-input-block">
+            <input id="teaTel" type="text" name="teaTel" readonly  lay-verify="required" class="layui-input layui-bg-gray">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">邮箱地址</label>
+        <div class="layui-input-block">
+            <input id="email" type="email" name="email" readonly lay-verify="required" class="layui-input layui-bg-gray">
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">备注信息</label>
+        <div class="layui-input-block">
+            <textarea id="remark" name="remark" class="layui-textarea">对成绩有疑问的同学可以先通过电话或邮箱与我联系，再提交成绩变动申请！</textarea>
+        </div>
+    </div>
+</div>
+
+
+<script src="../../../js/jquery-3.5.1.js"></script>
+<script src="../../../js/myAjax.js"></script>
+<script src="../../../static/layuimini/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+
+<script>
+    layui.use(['form', 'layer'], function () {
+        let form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+
+        //eval是将该string类型的json串变为javaScript对象
+        let sco_data = eval('('+parent.sco_data+')');
+        console.log(sco_data);
+
+        //调用接口获取教师数据
+        let teaId = {id: sco_data.teaId}
+        let result = myGetTokenAjax("score/tea-detail",teaId);
+
+        //渲染表单
+        $('#teaId').val(sco_data.teaId)
+        $('#teaName').val(sco_data.teaName)
+        $('#teaTel').val(result.data.teaTel)
+        $('#email').val(result.data.email)
+
+        layer.msg(result.msg)
+
+    });
+</script>
+</body>
+</html>

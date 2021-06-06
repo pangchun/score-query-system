@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bs.dao.RoleDao">
+    <!--查询全部角色信息-->
+    <select id="selectAllRole" resultType="Role" parameterType="Role">
+        select * from wx_role
+        <where>
+            <if test="name!=null and name!=''">
+                `name` like concat('%',#{name},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--新增角色-->
+    <insert id="addRole" parameterType="Role">
+        insert into wx_role (`name`,description,create_time,status)
+        values (#{name},#{description},now(),#{status})
+    </insert>
+
+    <!--修改角色-->
+    <update id="edictRole" parameterType="Role">
+        update wx_role
+        <set>
+            <if test="name!=null and name!=''">
+                `name`=#{name},
+            </if>
+            <if test="description!=null and description!=''">
+                description=#{description},
+            </if>
+            <if test="status!=null">
+                status=#{status},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <!--删除角色-->
+    <delete id="deleteRoleById" parameterType="Role">
+        delete from wx_role where id=#{id}
+    </delete>
+
+    <!--查询某个角色的全部权限-->
+    <select id="selectAllPermission" resultType="Permission">
+         select p.id,p.name from  wx_permission p
+    </select>
+    <!--查询角色拥有的权限-->
+    <select id="selectRolePermission" parameterType="Role" resultType="Permission">
+        select p.id,p.name from wx_permission p
+        right join wx_role_permission_relation rp on rp.permission_id=p.id
+        where rp.role_id=#{id}
+    </select>
+    <!--给角色增加权限-->
+    <insert id="updateRolePermission" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+            insert into wx_role_permission_relation (role_id,permission_id)
+            values (#{item.id},#{item.permissionId})
+        </foreach>
+    </insert>
+    <!--增加权限后需要增加角色权限的数量-->
+    <update id="addCount" parameterType="Role">
+        update wx_role set admin_count=admin_count+#{adminCount} where id=#{id}
+    </update>
+    <!--删除角色权限-->
+    <delete id="delRolePermission" parameterType="java.util.List">
+        <foreach collection="role" item="item" index="index" separator=";">
+           delete from wx_role_permission_relation
+           where role_id=#{item.id} and permission_id=#{item.permissionId}
+        </foreach>
+    </delete>
+</mapper>

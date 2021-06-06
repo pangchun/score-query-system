@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../static/layuimini/lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../static/layuimini/css/public.css" media="all">
+    <script src="../../js/jquery-3.5.1.js"></script>
+    <script src="../../js/myAjax.js"></script>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <!--搜索区域-->
+        <fieldset class="table-search-fieldset">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">用户姓名</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="realName" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">用户性别</label>
+                            <div class="layui-input-inline">
+                                <select name="sex" id="sex" lay-verify="">
+                                    <option>全部</option>
+                                    <option>男</option>
+                                    <option>女</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">角色</label>
+                            <div class="layui-input-inline">
+                                <select name="role" id="role" lay-verify="">
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">状态</label>
+                            <div class="layui-input-inline">
+                                <select name="status" lay-verify="">
+                                    <option value="2">全部</option>
+                                    <option value="1">正常</option>
+                                    <option value="0">冻结</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button type="text" class="layui-btn"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+                            <button type="reset" class="layui-btn layui-btn-warm"><i class="layui-icon layui-icon-refresh-1"></i>重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+        <!--表格头部工具类区域-->
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button type="button" class="layui-btn layui-btn-sm" lay-event="usefull">解冻</button>
+                <button type="button" class="layui-btn layui-btn-sm layui-btn-danger" lay-event="forbidden">冻结</button>
+            </div>
+        </script>
+        <!--表格区域-->
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+        <!--编辑和删除区域-->
+        <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+            <a class="layui-btn layui-btn-xs" lay-event="roleEdict">角色管理</a>
+        </script>
+    </div>
+<script src="../../static/layuimini/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script>
+    /**
+     * 查询全部角色，用于生成按角色查询用户的下拉框列表
+     * */
+    let data=myPostTokenAjax('user/findAllRole');
+    let html='<option>全部</option>';
+    for (let i=0;i<data.length;i++){
+        html+='<option >'+data[i].name+'</option>'
+    }
+    $("#role").html(html)
+
+    /**
+     * layui
+     **/
+    layui.use(['form', 'table'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+            let tokenHead=localStorage.getItem("tokenHead");
+            let token=localStorage.getItem("token");
+
+        table.render({
+            elem: '#currentTableId',
+            url: 'http://localhost:9000/user/findAllUser',
+            toolbar: '#toolbarDemo',
+            headers:{"Authorization":tokenHead+token},
+            cols: [[
+                {type: "checkbox", width: 20},
+                {field: 'id', width: 20, title: 'ID', sort: true},
+                {field: 'icon', width: 40, title: '头像',
+                    templet:function (item) {
+                        if (item.icon != null&&item.icon!="") {
+                            return "<img src='../../static/img/"+item.icon+"' id='head' style='height: 26px;width: 26px'/>"
+                        } else {
+                            return "<img src='../../img/head.jpg' id='head' style='height: 26px;width: 26px'/>"
+                        }
+                    }
+                },
+                {field: 'realName', minWidth: 30, title: '姓名'},
+                {field: 'username', minWidth: 30, title: '账户'},
+                {field: 'sex', minWidth: 30, title: '性别', sort: true},
+                {field: 'role', minWidth: 30, title: '角色'},
+                {field: 'status', title: '账户状态', minWidth: 30,align: "center",
+                    templet: function (item) {
+                        if(item.status == 1){
+                            return "<div " +
+                                "style='height: 20px;width: 40px;background-color: dodgerblue;color: white;line-height: 20px;" +
+                                "text-align: center'>正常</div>"
+                        }else{
+                            return "<div " +
+                                "style='height: 20px;width: 40px;background-color: orange;color: white;line-height: 20px;" +
+                                "text-align: center'>冻结</div>"
+                        }
+                    }
+                },
+                {field: 'phone', minWidth: 40, title: '手机',hide:true},
+                {field: 'email', minWidth: 40, title: '邮箱',hide:true},
+                {title: '操作', minWidth: 150, toolbar: '#currentTableBar',align: "center"}
+            ]],
+            limits: [6,10, 15, 20, 25, 50, 100],
+            limit: 10,
+            page: true,
+            skin: 'line',
+            done: function (res, curr, count) {
+                //判断当前页码是否是大于1并且当前页的数据量为0
+                if (curr > 1 && res.data.length == 0) {
+                    var pageValue = curr - 1;
+                    //刷新数据表格的数据
+                    tableIns.reload({
+                        page: {curr: pageValue}
+                    });
+                }
+            }
+        });
+
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            table.reload('currentTableId', {
+                page: {
+                    curr: 1
+                }
+                , where:{
+                    data:JSON.stringify(data.field)
+                }
+            }, 'data');
+            return false;
+        });
+
+        //监听表格复选框选择
+        table.on('checkbox(currentTableFilter)', function (obj) {
+            console.log(obj)
+        });
+
+        /**
+         * 头部工具类监听事件
+         */
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            var checkStatus = table.checkStatus('currentTableId')
+                ,data = checkStatus.data;
+            if (obj.event === 'usefull') {  // 启用
+                let result=myPostTokenAjax('user/useful',data)
+                layui.table.reload("currentTableId");
+            } else if (obj.event === 'forbidden') {  // 禁用
+                let result=myPostTokenAjax('user/forbidden',data)
+                layui.table.reload("currentTableId");
+            }
+        });
+
+        table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data;
+            //分配用户角色
+            if(obj.event === 'roleEdict'){
+                var index = layer.open({
+                    title: '角色管理',
+                    type: 2,//打开类型
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['40%', '80%'],//窗口宽高
+                    content:'roleManner.html',//引用内容的窗口
+                    success: function (layero, index) {
+                        let iframe = window['layui-layer-iframe' + index];
+                        iframe.getRole(data, index)
+                    }
+                });
+                return false;
+            } else if (obj.event === 'delete') {
+                layer.confirm('真的删除行么', function (index) {
+                    let result=myPostTokenAjax("user/deleteUserById",data);
+                    console.log(result,222222)
+                    if(result.success){
+                        layui.table.reload("currentTableId")
+                    }
+                    if (result.message!=null){
+                        layer.msg(result.message);
+                    }else {
+                        layer.msg("没有权限");
+                    }
+                    //用来关闭上面的confirm弹出框
+                    layer.close(index);
+                });
+            }
+        });
+
+    });
+</script>
+</div>
+</body>
+</html>

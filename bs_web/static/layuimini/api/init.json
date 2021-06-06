@@ -1,0 +1,169 @@
+{
+  "homeInfo": {
+    "title": "首页",
+    "href": "index.html"
+  },
+  "logoInfo": {
+    "title": "LAYUI MINI",
+    "image": "../static/layuimini/images/logo.png",
+    "href": ""
+  },
+  "menuInfo": [
+    {
+      "title": "用户管理",
+      "icon": "fa fa-address-book",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "用户管理",
+          "href": "",
+          "icon": "fa fa-home",
+          "target": "_self",
+          "child": [
+            {
+              "title": "全部用户",
+              "href": "user/userManner.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "用户信息",
+              "href": "user/userEdit.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "权限管理",
+      "icon": "fa fa-lemon-o",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "角色管理",
+          "href": "role/roleManner.html",
+          "icon": "fa fa-dot-circle-o",
+          "target": "_self"
+        },
+        {
+          "title": "权限管理",
+          "href": "permission/permissionManner.html",
+          "icon": "fa fa-adn",
+          "target": "_self"
+        }
+      ]
+    },
+    {
+      "title": "科目管理",
+      "icon": "fa fa-slideshare",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "科目管理",
+          "href": "",
+          "icon": "fa fa-meetup",
+          "target": "",
+          "child": [
+            {
+              "title": "科目查询",
+              "href": "subject/subjectSelect.html",
+              "icon": "fa fa-calendar",
+              "target": "_self"
+            },
+            {
+              "title": "发布科目",
+              "href": "subject/addSubject.html",
+              "icon": "fa fa-calendar",
+              "target": "_self"
+            },
+            {
+              "title": "已选课信息",
+              "href": "subject/isSelectedSub.html",
+              "icon": "fa fa-calendar",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "考试管理",
+      "icon": "fa fa-lemon-o",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "考试安排",
+          "href": "exam/examArrangement.html",
+          "icon": "fa fa-adn",
+          "target": "_self"
+        },
+        {
+          "title": "考试发布",
+          "href": "exam/examRelease.html",
+          "icon": "fa fa-dot-circle-o",
+          "target": "_self"
+        }
+      ]
+    },
+
+    {
+      "title": "成绩管理",
+      "icon": "fa fa-slideshare",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "成绩查询 - 学生",
+          "href": "grade/manage-student.html",
+          "icon": "fa fa-window-maximize",
+          "target": "_self"
+        },
+        {
+          "title": "成绩管理 - 教师",
+          "href": "grade/manage-teacher.html",
+          "icon": "fa fa-window-maximize",
+          "target": "_self"
+
+        },
+        {
+          "title": "成绩管理 - 管理员",
+          "href": "grade/manage-manager.html",
+          "icon": "fa fa-window-maximize",
+          "target": "_self"
+        },
+        {
+          "title": "我的申请 - 学生",
+          "href": "grade/application-student.html",
+          "icon": "fa fa-window-maximize",
+          "target": "_self"
+        },
+        {
+          "title": "申请管理 - 教师",
+          "href": "grade/application-teacher.html",
+          "icon": "fa fa-window-maximize",
+          "target": "_self"
+        },
+        {
+          "title": "更多管理",
+          "href": "",
+          "icon": "fa fa-window-maximize",
+          "target": "_self",
+          "child": [
+            {
+              "title": "项目地址",
+              "href": "https://gitee.com/zhangqianchun",
+              "icon": "fa fa-window-maximize",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
